@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  generate-matrix:
+    generate-matrix:
     name: Generate Build Matrix
     runs-on: ubuntu-24.04
     outputs:
@@ -44,7 +44,7 @@ jobs:
           while IFS= read -r file; do
             # Remove the leading "Containerfiles/" part.
             relative=${file#Containerfiles/}
-            # Determine the directory of the Containerfile (e.g., "aurora/base" or "bazzite/deck")
+            # Get the directory containing the Containerfile (e.g., "aurora/base" or "bazzite/deck")
             dir=$(dirname "$relative")
             
             # Break the directory path into parts.
@@ -67,10 +67,17 @@ jobs:
             matrix_entries=$(echo "$matrix_entries" | jq --argjson entry "$entry" '. + [$entry]')
           done <<< "$files"
 
-          echo "Matrix:"
+          echo "Matrix is:"
           echo "$matrix_entries"
-          echo "::set-output name=matrix::$matrix_entries"
+          # Ensure matrix_entries is not empty; if files was empty, we could error out deliberately:
+          if [ "$matrix_entries" = "null" ] || [ "$matrix_entries" = "[]" ]; then
+            echo "No Containerfiles found. Exiting."
+            exit 1
+          fi
+          # Set the output. Using GITHUB_OUTPUT file variable (preferred method) for GitHub Actions
+          echo "matrix=$matrix_entries" >> "$GITHUB_OUTPUT"
         shell: bash
+
 
   build_push:
     name: Build and push images
