@@ -75,7 +75,9 @@ jobs:
             exit 1
           fi
           # Set the output using the GITHUB_OUTPUT file variable.
-          echo "matrix=$matrix_entries" >> "$GITHUB_OUTPUT"
+          echo "matrix<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$matrix_entries" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
         shell: bash
 
   build_push:
