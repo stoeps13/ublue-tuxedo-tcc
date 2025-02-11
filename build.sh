@@ -14,6 +14,10 @@ RELEASE="$(rpm -E %fedora)"
 
 # this installs a package from fedora repos
 rpm-ostree install screen
+
+#Exec perms for symlink script
+chmod +x /usr/bin/fixtuxedo
+
 #Build and install tuxedo drivers
 rpm-ostree install rpm-build
 rpm-ostree install rpmdevtools
