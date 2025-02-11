@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-    generate-matrix:
+  generate-matrix:
     name: Generate Build Matrix
     runs-on: ubuntu-24.04
     outputs:
@@ -35,7 +35,7 @@ jobs:
       - name: Find Containerfiles and create matrix
         id: set-matrix
         run: |
-          # Find all Containerfile files under Containerfiles directory.
+          # Find all Containerfile files under the Containerfiles directory.
           files=$(find Containerfiles -type f -name Containerfile)
           echo "Found containerfiles:"
           echo "$files"
@@ -47,13 +47,13 @@ jobs:
             # Get the directory containing the Containerfile (e.g., "aurora/base" or "bazzite/deck")
             dir=$(dirname "$relative")
             
-            # Break the directory path into parts.
+            # Split the directory path into parts.
             IFS='/' read -r -a parts <<< "$dir"
             # If the last part is "base", remove it.
             if [ "${parts[-1]}" = "base" ]; then
               unset 'parts[${#parts[@]}-1]'
             fi
-            # Join remaining parts with a hyphen.
+            # Join the remaining parts with a hyphen.
             if [ ${#parts[@]} -gt 0 ]; then
               joined=$(IFS=-; echo "${parts[*]}")
             else
@@ -69,15 +69,14 @@ jobs:
 
           echo "Matrix is:"
           echo "$matrix_entries"
-          # Ensure matrix_entries is not empty; if files was empty, we could error out deliberately:
-          if [ "$matrix_entries" = "null" ] || [ "$matrix_entries" = "[]" ]; then
+          # If no Containerfile was found (matrix_entries is still []), exit with error.
+          if [ "$matrix_entries" = "[]" ]; then
             echo "No Containerfiles found. Exiting."
             exit 1
           fi
-          # Set the output. Using GITHUB_OUTPUT file variable (preferred method) for GitHub Actions
+          # Set the output using the GITHUB_OUTPUT file variable.
           echo "matrix=$matrix_entries" >> "$GITHUB_OUTPUT"
         shell: bash
-
 
   build_push:
     name: Build and push images
@@ -188,4 +187,3 @@ jobs:
           TAGS: ${{ steps.push.outputs.digest }}
           COSIGN_EXPERIMENTAL: false
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
-
