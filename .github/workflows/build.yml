@@ -85,7 +85,8 @@ jobs:
     needs: generate-matrix
     runs-on: ubuntu-24.04
     strategy:
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      matrix:
+        include: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     permissions:
       contents: read
       packages: write
