@@ -1,3 +1,8 @@
+#ublue-tuxed-tcc
+Known issues:
+Keyboard backlight drivers currently don't work on Bazzite
+Unless updated to the latest version and rebooted, custom profiles on TCC are broken. Fixed with later versions.
+
 # image-template
 
 # Purpose
