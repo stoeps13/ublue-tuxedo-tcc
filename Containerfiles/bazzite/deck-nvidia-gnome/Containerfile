@@ -50,6 +50,7 @@ FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
 COPY tuxedo.repo /etc/yum.repos.d/tuxedo.repo
 COPY fixtuxedo /usr/bin/fixtuxedo
+COPY fixtuxedo.service /etc/systemd/system/fixtuxedo.service
 
 COPY build.sh /tmp/build.sh
 

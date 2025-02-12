@@ -17,6 +17,8 @@ rpm-ostree install screen
 
 #Exec perms for symlink script
 chmod +x /usr/bin/fixtuxedo
+#And autorun
+systemctl enable /etc/systemd/system/fixtuxedo.service
 
 #Build and install tuxedo drivers
 rpm-ostree install rpm-build
