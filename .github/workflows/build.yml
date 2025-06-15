@@ -5,17 +5,17 @@ on:
     branches:
       - main
   schedule:
-    - cron: '05 10 * * *'  # 10:05am UTC everyday
+    - cron: "05 10 * * 1" # 10:05am UTC everyday
   push:
     branches:
       - main
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
   workflow_dispatch:
 
 env:
-  IMAGE_DESC: "My Customized Universal Blue Image"
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
+  IMAGE_DESC: "Brickman240 updated images with tuxedo drivers"
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
   ARTIFACTHUB_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4"
 
 concurrency:
@@ -39,12 +39,11 @@ jobs:
           files=$(find Containerfiles -type f -name Containerfile)
           echo "Found containerfiles:"
           echo "$files"
-          
+
           matrix_entries="[]"
           while IFS= read -r file; do
             # Remove the leading "Containerfiles/" part.
             relative=${file#Containerfiles/}
-            # Get the directory containing the Containerfile (e.g., "aurora/base" or "bazzite/deck")
             dir=$(dirname "$relative")
             
             # Split the directory path into parts.
