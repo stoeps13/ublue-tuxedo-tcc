@@ -34,7 +34,6 @@ rpmdev-setuptree
 git clone https://github.com/BrickMan240/tuxedo-drivers-kmod
 
 cd tuxedo-drivers-kmod/
-git checkout update-to-4.14.1
 ./build.sh
 cd ..
 
