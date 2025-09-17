@@ -24,6 +24,7 @@ systemctl enable /etc/systemd/system/fixtuxedo.service
 rpm-ostree install rpm-build
 rpm-ostree install rpmdevtools
 rpm-ostree install kmodtool
+rpm-ostree install gcc make kernel-devel
 
 export HOME=/tmp
 
