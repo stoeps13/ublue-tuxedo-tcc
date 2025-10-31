@@ -13,6 +13,7 @@ RELEASE="$(rpm -E %fedora)"
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # this installs a package from fedora repos
+sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/*.repo
 rpm-ostree install tmux
 
 #Exec perms for symlink script
@@ -35,6 +36,7 @@ rpmdev-setuptree
 git clone https://github.com/stoeps13/tuxedo-drivers-kmod
 
 cd tuxedo-drivers-kmod/
+git checkout f43
 ./build.sh
 cd ..
 
